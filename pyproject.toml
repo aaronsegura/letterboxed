@@ -1,0 +1,33 @@
+[build-system]
+requires = ["setuptools>=68.0"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+packages = ["letterboxed"]
+
+[project]
+name = "letterboxed"
+version = "0.0.1"
+dependencies = []
+
+[project.scripts]
+"letterboxed" = "letterboxed.__main__:main"
+
+[tool.ruff]
+line-length = 96
+select = ["E", "F", "N", "D"]
+exclude = ["alembic"]
+
+[tool.ruff.lint]
+ignore = ["D107", "D100", "D104", "D101"]
+
+[tool.ruff.pydocstyle]
+convention = "google"
+
+[tool.ruff.mccabe]
+max-complexity = 10
+
+[tool.pyright]
+reportOptionalMemberAccess = false
+typeCheckingMode = "basic"
+reportUnnecessaryTypeIgnoreComment = "warning"

@@ -21,8 +21,12 @@ def main():
         dest='dictionary_file',
         metavar='<file>',
         help="Dictionary File", required=True)
+
     for side in sides:
-        parser.add_argument(dest=side, type=str)
+        parser.add_argument(
+            dest=side,
+            type=str,
+            help=f'Comma-separated letters from {side} side.')
 
     config = parser.parse_args()
 

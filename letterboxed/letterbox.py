@@ -1,4 +1,3 @@
-from pprint import pprint
 from typing import TypeAlias, Tuple, List, Optional, Set
 
 box_side : TypeAlias = Tuple[str, str, str]

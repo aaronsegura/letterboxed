@@ -38,6 +38,7 @@ Example python module usage:
 
     lbox = Letterbox((('a', 'e', 'g'), ('h','i','l'), ('c', 'm', 'v'), ('p', 'o', 't')), dict)
 
-    print(" -> ".join(lbox.solve()))
+    for pair in lbox.solve():
+        print(" -> ".join(pair))
 
 

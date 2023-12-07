@@ -8,10 +8,17 @@ packages = ["letterboxed"]
 [project]
 name = "letterboxed"
 version = "0.0.1"
+description = "Solve the daily Letterboxed word puzzle from the New York Times."
 dependencies = []
+readme = "README.md"
 
 [project.scripts]
 "letterboxed" = "letterboxed.__main__:main"
+
+[project.urls]
+Homepage = "https://github.com/aaronsegura/letterboxed"
+Repository = "https://github.com/aaronsegura/letterboxed"
+Issues = "https://github.com/aaronsegura/letterboxed/issues"
 
 [tool.ruff]
 line-length = 96

@@ -72,7 +72,7 @@ class Letterbox:
         Return the all two-word solutions found in the given dictionary.
 
         Returns:
-            List[str]: List of two words to solve the puzzle.
+            List[List[str]]: List of two-word lists that solve the puzzle.
         """
         answers: List[List[str]] = []
         for word in self.valid_words:

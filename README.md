@@ -27,6 +27,7 @@ You will need a local dictionary file in order to use this module.  On Linux the
 
     # Puzzle for December 7, 2023
     $ letterboxed -d /usr/share/dict/american-english a,e,g p,o,t h,i,l c,m,v
+    glove -> empathetic
 
 Example python module usage:
 

@@ -44,8 +44,9 @@ def main():
             values['bottom']),
         dict)
 
-    print(" -> ".join(letterbox.solve()))
+    answers = letterbox.solve()
+    for pair in answers:
+        print(" -> ".join(pair))
 
 if __name__ == '__main__':
-
     main()

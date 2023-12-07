@@ -66,21 +66,21 @@ class Letterbox:
     def __valid_next_words(self, word: str) -> List[str]:
         return [x for x in self.valid_words if x[0] == word[len(word)-1]]
 
-    def solve(self) -> List[str]:
+    def solve(self) -> List[List[str]]:
         """Solve the letterboxed puzzle.
 
-        Return the first two-solve found in the dictionary.
+        Return the all two-word solutions found in the given dictionary.
 
         Returns:
             List[str]: List of two words to solve the puzzle.
         """
-        answer: List[str] = []
+        answers: List[List[str]] = []
         for word in self.valid_words:
             for next_word in self.__valid_next_words(word):
                 if word == next_word:
                     continue
                 if self.__all_letters_used([word, next_word]):
-                    answer = [word, next_word]
+                    answers.append([word, next_word])
                     break
 
-        return answer
+        return answers

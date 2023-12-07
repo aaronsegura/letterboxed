@@ -51,6 +51,7 @@ class Letterbox:
         if len(word) < 3:
             return False
 
+        # Letters in word must be in the letterbox
         for letter in word:
             if letter not in self.__all_letters:
                 return False

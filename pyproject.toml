@@ -7,7 +7,7 @@ packages = ["letterboxed"]
 
 [project]
 name = "letterboxed"
-version = "0.0.2"
+version = "0.0.3"
 description = "Solve the daily Letterboxed word puzzle from the New York Times."
 dependencies = []
 readme = "README.md"

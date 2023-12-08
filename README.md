@@ -8,26 +8,29 @@ Python module to solve the [daily word puzzle](https://www.nytimes.com/puzzles/l
 
 ### Usage
 
-You will need a local dictionary file in order to use this module.  On Linux they are usually available under `/usr/share/dict`.
+You will need a local dictionary file in order to use this module if you want to specify custom puzzles with '-l'.
 
     $ letterboxed -h
-    usage: letterboxed [-h] -d <file> top left right bottom
+    usage: letterboxed [-h] (-n | -l top-rgt-lft-btm) [-d <file>]
 
     NYT Letterboxed Two-Solver
 
-    positional arguments:
-    top         Comma-separated letters from top side.
-    left        Comma-separated letters from left side.
-    right       Comma-separated letters from right side.
-    bottom      Comma-separated letters from bottom side.
-
     options:
-    -h, --help  show this help message and exit
-    -d <file>   Dictionary File
+    -h, --help          show this help message and exit
+    -n                  Pull today's puzzle from the NYTimes website.
+    -l top-rgt-lft-btm  Specify the letters you want on the box.
+    -d <file>           Dictionary File
 
-    # Puzzle for December 7, 2023
-    $ letterboxed -d /usr/share/dict/american-english a,e,g p,o,t h,i,l c,m,v
-    glove -> empathetic
+    # Puzzle for December 8, 2023
+    $ letterboxed -d /usr/share/dict/american-english -l CTO-UFM-QZB-INA -d /usr/share/dict/american-english-huge
+    quiz -> zombification
+
+    $ letterboxed -n
+
+    Today's puzzle is CTO-UFM-QZB-INA
+
+    quiz -> zombification
+    quoz -> zombification
 
 Example python module usage:
 

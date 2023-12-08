@@ -33,7 +33,8 @@ class Letterbox:
             Side(sides[1]),
             Side(sides[2]),
             Side(sides[3]))
-        self.valid_words: List[str] = [w for w in dictionary if self.__word_obeys_rules(w)]
+        self.valid_words: List[str] = [
+            w.lower() for w in dictionary if self.__word_obeys_rules(w.lower())]
 
     @property
     def __box_letters(self) -> List[str]:

@@ -8,13 +8,14 @@ from argparse import ArgumentParser
 
 from typing import Tuple, Dict, List, Optional
 
+_URL = 'https://www.nytimes.com/puzzles/letter-boxed'
+
 def main():
     """The command line executable.
 
     See README for usage information.
     """
-    values: Dict[str, Tuple[str, str, str]] = {}
-    sides: List[str] = ['top', 'left', 'right', 'bottom']
+    letters: List[str] = []
     dict: List[str] = []
 
     parser = ArgumentParser(description='NYT Letterboxed Solver')
@@ -44,21 +45,14 @@ def main():
     config = parser.parse_args()
 
     if config.letters:
-        groups: List[str] = config.letters.split('-')
-        for side in sides:
-            try:
-                group: str = groups.pop()
-            except IndexError:
-                print("Invalid format for letters.  Must have four segments separated by '-'.")
-                exit(1)
+        letters: List[str] = config.letters.split('-')
+        if len(letters) != 4:
+            raise RuntimeError(
+                "Invalid format for letters.  Must be four groups separated by '-'.")
 
-            try:
-                assert len(group) == 3
-            except AssertionError:
-                print("Groups of letters must be in threes.")
-                exit(1)
-
-            values[side] = tuple(list((x for x in group)))  # type: ignore
+        side_lengths = set([len(_) for _ in letters])
+        if len(side_lengths) != 1:
+            raise RuntimeError("Sides must all have same number of letters.")
 
         if config.dictionary_file:
             with open(config.dictionary_file, "r") as fp:
@@ -67,31 +61,23 @@ def main():
             raise RuntimeError("Must provide local dictionary if passing custom box letters.")
 
     if config.nyt:
-        resp = get("https://www.nytimes.com/puzzles/letter-boxed")
+        resp = get(_URL)
         nyt_groups: Optional[re.Match[str]] = re.search(
             r'\"sides\":\[\"([A-Z]{3})\",\"([A-Z]{3})\",\"([A-Z]{3})\",\"([A-Z]{3})\"\]',
             resp.text)
-        for z in zip(sides, nyt_groups.groups()):
-            values[z[0]] = tuple(list((x for x in z[1])))  # type: ignore
+
+        if not nyt_groups:
+            raise RuntimeError(f'Unable to find puzzle at {_URL}')
+
+        letters = list(nyt_groups.groups())
 
         nyt_dictionary = re.search(r'\"dictionary\":\[([\"A-Z,]+)', resp.text)
         dict_str = f'[{nyt_dictionary.group(1)}]'
         dict = json.loads(dict_str)
 
-        todays_puzzle: List[str] = []
-        for k,v in values.items():
-            todays_puzzle.append("".join(v))
+        print(f'\nToday\'s puzzle is {"-".join(letters)}\n')
 
-        print(f'\nToday\'s puzzle is {"-".join(todays_puzzle)}\n')
-
-
-    letterbox = Letterbox(
-        (
-            values['top'],
-            values['left'],
-            values['right'],
-            values['bottom']),
-        dict)
+    letterbox = Letterbox((letters[0], letters[1], letters[2], letters[3]), dict)
 
     answers = letterbox.solve()
     for pair in answers:

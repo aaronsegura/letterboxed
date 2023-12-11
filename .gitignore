@@ -1,6 +1,7 @@
 .vscode
 *.env
 test.py
+temp.py
 *.ini
 
 ### Python

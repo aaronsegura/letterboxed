@@ -4,9 +4,10 @@ import json
 from requests import get
 
 from letterboxed import Letterbox
+
 from argparse import ArgumentParser
 
-from typing import Tuple, Dict, List, Optional
+from typing import List, Optional
 
 _URL = 'https://www.nytimes.com/puzzles/letter-boxed'
 
@@ -35,6 +36,12 @@ def main():
         help='Specify the letters you want on the box.',
         metavar='top-rgt-lft-btm')
 
+    source_select.add_argument(
+        '-r',
+        dest='create_random',
+        action='store_true',
+        help='Generate a random letterbox puzzle.')
+
     parser.add_argument(
         '-d',
         dest='dictionary_file',
@@ -42,7 +49,27 @@ def main():
         help="Dictionary File",
         required=False)
 
+    parser.add_argument(
+        '-g',
+        dest='guess',
+        type=str,
+        help='Make a guess on the supplied letterbox.',
+        metavar='word1,word2')
+
     config = parser.parse_args()
+
+    if config.create_random:
+        if config.dictionary_file:
+            with open(config.dictionary_file, "r") as fp:
+                dict = fp.read().split("\n")
+        else:
+            raise RuntimeError(
+                "Must provide local dictionary (-d) if creating a new random puzzle.")
+
+        letterbox = Letterbox.create_random(dict)
+        print(f'Your letterbox puzzle is\n\n\t{letterbox.puzzle()}\n')
+        print(f'Run `letterboxed -l {letterbox.puzzle()} -g your,guess` to make a guess.')
+        exit(0)
 
     if config.letters:
         letters: List[str] = config.letters.split('-')
@@ -58,7 +85,16 @@ def main():
             with open(config.dictionary_file, "r") as fp:
                 dict = fp.read().split("\n")
         else:
-            raise RuntimeError("Must provide local dictionary if passing custom box letters.")
+            raise RuntimeError("Must provide local dictionary (-d) if passing custom box letters.")
+
+        if config.guess:
+            letterbox = Letterbox((letters[0], letters[1], letters[2], letters[3]), dict)
+            guesses = config.guess.split(',')
+
+            if letterbox.guess(config.guess.split(',')):
+                return "You got it!"
+            else:
+                return "Nope!"
 
     if config.nyt:
         resp = get(_URL)
